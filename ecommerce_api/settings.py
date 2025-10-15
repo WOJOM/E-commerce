@@ -136,5 +136,22 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 10,
 
      'EXCEPTION_HANDLER': 'products.views.custom_exception_handler',
-    ...
 }
+
+import dj_database_url
+import os
+
+DEBUG = False
+ALLOWED_HOSTS = ['yourusername.pythonanywhere.com']
+
+DATABASES = {
+    'default': dj_database_url.config(default=os.environ.get('DATABASE_URL'))
+}
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# Security
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
