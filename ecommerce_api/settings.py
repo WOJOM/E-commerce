@@ -140,12 +140,14 @@ REST_FRAMEWORK = {
 
 import dj_database_url
 import os
+from pathlib import Path
 
 DEBUG = False
 ALLOWED_HOSTS = ['yourusername.pythonanywhere.com']
 
 DATABASES = {
-    'default': dj_database_url.config(default=os.environ.get('DATABASE_URL'))
+    'default': dj_database_url.config(
+        default=os.environ.get('DATABASE_URL'))
 }
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
@@ -155,3 +157,14 @@ CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
 SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
+
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+DATABASES = {
+    'default': dj_database_url.config(
+        default=f'sqlite:///{BASE_DIR}/db.sqlite3',
+        conn_max_age=600,
+        ssl_require=True
+    )
+}
